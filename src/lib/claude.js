@@ -156,7 +156,7 @@ export async function generateInventoryRecipes(inventory) {
     headers: getHeaders(),
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
-      max_tokens: 2000,
+      max_tokens: 4096,
       system: `You are a home kitchen recipe assistant. Generate 3 practical recipes using the user's available ingredients.
 
 Return ONLY a valid JSON array of exactly 3 recipe objects. No markdown fences, no explanation.
@@ -244,7 +244,7 @@ export async function generateRecipe({ query, url, inventory }) {
     headers,
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
-      max_tokens: 2000,
+      max_tokens: 4096,
       tools: url ? [{ type: 'web_fetch_20250910', name: 'web_fetch', max_uses: 3 }] : undefined,
       system: `You are a recipe assistant. The user's current pantry/fridge/freezer inventory is:
 ${inventoryContext}
