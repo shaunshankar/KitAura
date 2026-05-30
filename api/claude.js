@@ -1,4 +1,6 @@
-export default async function handler(req, context) {
+export const config = { runtime: 'edge' }
+
+export default async function handler(req) {
   if (req.method !== 'POST') {
     return new Response('Method Not Allowed', { status: 405 })
   }
@@ -33,5 +35,3 @@ export default async function handler(req, context) {
     headers: { 'Content-Type': 'application/json' },
   })
 }
-
-export const config = { path: '/api/claude', timeout: 26 }
