@@ -1,21 +1,15 @@
-export const config = { runtime: 'edge' }
-
-export default async function handler(req) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return new Response('Method Not Allowed', { status: 405 })
+    return res.status(405).send('Method Not Allowed')
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
-    return new Response(JSON.stringify({ error: { message: 'API key not configured on server' } }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    })
+    return res.status(500).json({ error: { message: 'API key not configured on server' } })
   }
 
-  const body = await req.text()
-  const extraHeaders = req.headers.get('x-anthropic-beta')
-    ? { 'anthropic-beta': req.headers.get('x-anthropic-beta') }
+  const extraHeaders = req.headers['x-anthropic-beta']
+    ? { 'anthropic-beta': req.headers['x-anthropic-beta'] }
     : {}
 
   const upstream = await fetch('https://api.anthropic.com/v1/messages', {
@@ -26,12 +20,9 @@ export default async function handler(req) {
       'anthropic-version': '2023-06-01',
       ...extraHeaders,
     },
-    body,
+    body: JSON.stringify(req.body),
   })
 
   const responseBody = await upstream.text()
-  return new Response(responseBody, {
-    status: upstream.status,
-    headers: { 'Content-Type': 'application/json' },
-  })
+  res.status(upstream.status).setHeader('Content-Type', 'application/json').send(responseBody)
 }
