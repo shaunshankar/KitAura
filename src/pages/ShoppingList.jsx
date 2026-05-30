@@ -131,6 +131,22 @@ export default function ShoppingList({ user }) {
   }
 
   // ── Notifications ────────────────────────────────────────────────
+  function buildEmailText(type, recipientName, senderName, items) {
+    const divider = '─────────────────────────────'
+    const itemLines = items.map(i => {
+      const qty = i.quantity ?? 1
+      const unit = i.unit && i.unit !== 'unit' ? `${qty} ${i.unit}` : `x${qty}`
+      return `• ${i.name} — ${unit}`
+    }).join('\n')
+    const footer = `\nKind regards,\nThe KitAura App\n\n${divider}\nThis notification was sent automatically by KitAura on behalf of your household.`
+
+    if (type === 'shopping_approval') {
+      return `Dear ${recipientName},\n\nThis is a notification from KitAura that ${senderName} has prepared the household shopping list and is ready to proceed with the Woolworths order.\n\nPlease review the items below before the shop is completed. If you have any additions or concerns, please contact ${senderName} directly.\n\nSHOPPING LIST\n${divider}\n${itemLines}\n\nTOTAL ITEMS: ${items.length}\n\nThis shop will proceed shortly. Please raise any concerns as soon as possible.${footer}`
+    }
+
+    return `Dear ${recipientName},\n\nThis is a notification from KitAura that ${senderName} has completed the household shopping.\n\nThe following items have been purchased and the shopping list has been updated accordingly.\n\nITEMS PURCHASED\n${divider}\n${itemLines}\n\nTOTAL ITEMS PURCHASED: ${items.length}\n\nYour KitAura inventory and shopping list have been updated.${footer}`
+  }
+
   async function sendNotification(type, notifyItems) {
     if (!profile?.household_id) return
 
@@ -148,16 +164,24 @@ export default function ShoppingList({ user }) {
       user.email?.split('@')[0] ||
       'A household member'
 
-    const { error } = await supabase.functions.invoke('send-notification', {
-      body: {
-        type,
-        recipients: members.map(m => ({ email: m.user_email, name: m.user_name })),
-        items: notifyItems.map(i => ({ name: i.name, quantity: i.quantity ?? 1, unit: i.unit || 'unit' })),
-        senderName,
-      },
-    })
+    const subject = type === 'shopping_approval'
+      ? 'KitAura — Household Shopping List Ready for Review'
+      : 'KitAura — Household Shopping Completed'
 
-    if (error) throw new Error(error.message)
+    const items = notifyItems.map(i => ({ name: i.name, quantity: i.quantity ?? 1, unit: i.unit || 'unit' }))
+
+    await Promise.all(members.map(async ({ user_email, user_name }) => {
+      const text = buildEmailText(type, user_name || 'Household Member', senderName, items)
+      const res = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: user_email, subject, text }),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err?.error || `Email send failed: ${res.status}`)
+      }
+    }))
   }
 
   // ── Woolworths prompt ────────────────────────────────────────────
