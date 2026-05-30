@@ -1,0 +1,198 @@
+.household-page { width: 100%; }
+
+/* ── Centred empty state ─────────────────────────────────────────── */
+.household-setup-centred {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* subtract main-content top (2rem) + bottom (2rem) padding */
+  min-height: calc(100vh - 4rem);
+}
+
+.household-setup-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  padding: 3rem;
+  max-width: 480px;
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.household-setup-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.25rem;
+}
+
+.household-setup-card h2 {
+  font-size: 1.5rem;
+}
+
+.household-setup-card p {
+  color: var(--text-secondary);
+  font-size: 0.925rem;
+  line-height: 1.65;
+  max-width: 36ch;
+}
+
+.household-setup-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+/* Force identical height on both action buttons */
+.household-setup-actions .btn {
+  padding: 0.6rem 1.4rem;
+  min-width: 155px;
+  justify-content: center;
+  height: 2.5rem;
+  box-sizing: border-box;
+}
+
+.household-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.household-info-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.household-info-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.household-name {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.household-description {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.invite-code-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+}
+
+.invite-code-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.invite-code-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.invite-code {
+  font-family: monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--accent-light);
+}
+
+.invite-code-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.household-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.household-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.member-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-glow);
+  border: 1px solid rgba(45, 122, 79, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--accent-light);
+  flex-shrink: 0;
+}
+
+.member-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.member-name {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.member-email {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  padding: 2rem 0;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
