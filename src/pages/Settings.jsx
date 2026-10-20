@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
+import ClaudeConnect from '../components/ClaudeConnect'
 import './Settings.css'
 
 const DIETARY_OPTIONS = [
@@ -166,6 +167,8 @@ export default function Settings({ user }) {
             ))}
           </div>
         </section>
+
+        <ClaudeConnect />
 
       </div>
 

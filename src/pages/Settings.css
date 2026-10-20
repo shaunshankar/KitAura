@@ -76,3 +76,17 @@
   .settings-layout { grid-template-columns: 1fr; }
   .goals-grid { grid-template-columns: 1fr 1fr; }
 }
+
+.connect-steps {
+  margin: 0 0 1rem 1.1rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.connect-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
