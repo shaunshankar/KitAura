@@ -200,6 +200,7 @@ export default function MealLog({ user }) {
                     <div className="meal-log-info">
                       <span className="meal-log-name">{log.food_name}</span>
                       {log.servings !== 1 && <span className="meal-log-servings">× {log.servings}</span>}
+                      {log.source === 'photo_estimate' && <span className="meal-log-estimate" title="Estimated from a photo">estimate</span>}
                       <div className="meal-log-macros">
                         <span>{Math.round(log.calories * log.servings)} kcal</span>
                         <span>P: {Math.round(log.protein_g * log.servings)}g</span>
